@@ -1,0 +1,19 @@
+name: hello-world # Naam van de workflow (handig om terug te vinden in het Actions-tabblad)
+on: push # De workflow start automatisch bij elke 'push' naar de repository
+jobs: # Hier begint de definitie van de taken (jobs)
+  hello-world-job: # Naam van de job
+    runs-on: ubuntu-latest # Deze job draait op een virtuele machine met het besturingssysteem Ubuntu (meest recente versie)
+    steps: # De opeenvolgende stappen die uitgevoerd worden in deze job
+      - name: Check out repository code # Stap om de broncode van de repository op te halen
+        uses: actions/checkout@v3 # Maakt gebruik van een GitHub Action die je repo clonet in de runner
+
+      - run: echo "$(cat hello_world.txt)" # Toont de inhoud van het bestand 'hello_world.txt' in de console
+
+      - name: use node.js # Deze stap geeft aan dat Node.js nodig is voor je project
+        uses: actions/setup-node@v3 # Maakt gebruik van de officiële GitHub Action om Node.js te installeren
+        with:
+          node-version: '18.x' # Geeft aan dat versie 18 van Node.js geïnstalleerd moet worden
+
+      - run: npm install # Installeert alle afhankelijkheden uit het package.json-bestand
+      
+      - run: npm run build # Voert het build-script uit dat in je package.json staat (meestal voor het bundelen of compileren van je app)
