@@ -1,24 +1,7 @@
-name: hello-world # Naam van de workflow (handig om terug te vinden in het Actions-tabblad)
-on: push # De workflow start automatisch bij elke 'push' naar de repository
-jobs: # Hier begint de definitie van de taken (jobs)
-  build: # Naam van de job
-    runs-on: ubuntu-latest # Deze job draait op een virtuele machine met het besturingssysteem Ubuntu (meest recente versie)
-    steps: # De opeenvolgende stappen die uitgevoerd worden in deze job
-      - name: Check out repository code # Stap om de broncode van de repository op te halen
-        uses: actions/checkout@v3 # Maakt gebruik van een GitHub Action die je repo clonet in de runner
-
-      - run: echo "$(cat hello_world.txt)" # Toont de inhoud van het bestand 'hello_world.txt' in de console
-
-      - name: use node.js # Deze stap geeft aan dat Node.js nodig is voor je project
-        uses: actions/setup-node@v3 # Maakt gebruik van de officiële GitHub Action om Node.js te installeren
-        with:
-          node-version: '18.x' # Geeft aan dat versie 18 van Node.js geïnstalleerd moet worden
-
-      - run: npm install # Installeert alle afhankelijkheden uit het package.json-bestand
-      
-      - run: npm run build # Voert het build-script uit dat in je package.json staat (meestal voor het bundelen of compileren van je app)
-  test: #voert een test taak
-    needs: build #heeft de build job nodig (de npm build en npm install)
+name: build-test-deploy
+on: push
+jobs: 
+  build:
     runs-on: ubuntu-latest
     steps: 
       - name: checkout repo
@@ -28,4 +11,16 @@ jobs: # Hier begint de definitie van de taken (jobs)
         with:
           node-version: '18.x'
       - run: npm install
-      - run: npm lint
+      - run: npm run build 
+  test: 
+    needs: build
+    runs-on: ubuntu-latest
+    steps: 
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: npm install
+      - run: npm test
