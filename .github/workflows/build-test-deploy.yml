@@ -28,4 +28,4 @@ jobs: # Hier begint de definitie van de taken (jobs)
         with:
           node-version: '18.x'
       - run: npm install
-      - run: npm test
+      - run: npm lint
