@@ -1,7 +1,7 @@
 name: hello-world # Naam van de workflow (handig om terug te vinden in het Actions-tabblad)
 on: push # De workflow start automatisch bij elke 'push' naar de repository
 jobs: # Hier begint de definitie van de taken (jobs)
-  hello-world-job: # Naam van de job
+  build: # Naam van de job
     runs-on: ubuntu-latest # Deze job draait op een virtuele machine met het besturingssysteem Ubuntu (meest recente versie)
     steps: # De opeenvolgende stappen die uitgevoerd worden in deze job
       - name: Check out repository code # Stap om de broncode van de repository op te halen
@@ -17,4 +17,15 @@ jobs: # Hier begint de definitie van de taken (jobs)
       - run: npm install # Installeert alle afhankelijkheden uit het package.json-bestand
       
       - run: npm run build # Voert het build-script uit dat in je package.json staat (meestal voor het bundelen of compileren van je app)
-      - run: npm run test #voert de test script uit
+  test: #voert een test taak
+    needs: build #heeft de build job nodig (de npm build en npm install)
+    runs-on: ubuntu-latest
+    steps: 
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: npm install
+      - run: npm test
