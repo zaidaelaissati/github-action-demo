@@ -17,3 +17,4 @@ jobs: # Hier begint de definitie van de taken (jobs)
       - run: npm install # Installeert alle afhankelijkheden uit het package.json-bestand
       
       - run: npm run build # Voert het build-script uit dat in je package.json staat (meestal voor het bundelen of compileren van je app)
+      - run: npm run test #voert de test script uit
