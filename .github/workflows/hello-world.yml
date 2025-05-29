@@ -1,0 +1,13 @@
+name: hello-world # De naam van de workflow
+
+on: push # De workflow wordt uitgevoerd telkens wanneer er een 'push' gebeurt naar de repository
+
+jobs: # Hier worden alle jobs (taken) gedefinieerd die uitgevoerd moeten worden
+  hello-world-job: # De naam van de job
+    runs-on: ubuntu-latest # De job draait op de nieuwste versie van een Ubuntu virtuele machine
+
+    steps: # De verschillende stappen die in deze job moeten worden uitgevoerd
+      - name: Check out repository code # Stap om de code van de repository op te halen
+        uses: actions/checkout@v3 # Maakt gebruik van een standaard GitHub Action om de code te clonen
+      
+      - run: echo "$(cat hello_world.txt)" # Voert een shell-commando uit dat de inhoud van het bestand hello_world.txt toont via echo
